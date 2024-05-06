@@ -61,6 +61,46 @@ conversation = [
     "Why don't scientists trust atoms? Because they make up everything!",
     "Can you help me?",
     "Of course! What do you need help with?"
+    
+    "Hey there!",
+    "Hello! How can I assist you today?",
+    "What's cracking?",
+    "Not much, just ready to help you out! How about you?",
+
+    "Morning!",
+    "Good morning! How's your day starting off?",
+    "Evening!",
+    "Good evening! What's on your mind?",
+
+    "Howdy!",
+    "Hey! What can I do for you?",
+    "What's happening?",
+    "Just here, at your service! What can I help you with?",
+
+    "See ya!",
+    "Take care! Let me know if you need anything else.",
+    "Later!",
+    "Until next time! Feel free to reach out whenever.",
+
+    "Cheers!",
+    "You're welcome!",
+    "Thanks a bunch!",
+    "Anytime! Don't hesitate to ask if you need more assistance.",
+
+    "Nice!",
+    "Glad you think so! What else can I do for you?",
+    "Boredom alert!",
+    "Let's shake things up! What interests you?",
+
+    "Hit me with a joke!",
+    "Why don't skeletons fight each other? They don't have the guts!",
+    "Need a laugh?",
+    "Sure thing! Why did the scarecrow win an award? Because he was outstanding in his field!",
+
+    "Can you assist me?",
+    "Absolutely! What do you need help with?",
+    "I'm stuck, help!",
+    "No problem! Let's work through it together."
 ]
 
 
