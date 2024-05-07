@@ -1,11 +1,11 @@
+from flask import Flask, render_template, request, jsonify
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.languages import ENG
 import spacy
 import sqlite3
 
-# Load Spacy model (Spacy is a software library for advanced natural language processing)
-nlp = spacy.load("en_core_web_sm")
+app = Flask(__name__)
 
 # Initialize ChatterBot with the correct Spacy model, adapters and configurations
 chatbot = ChatBot("ChattiBotti", 
@@ -103,7 +103,6 @@ conversation = [
     "No problem! Let's work through it together."
 ]
 
-
 # Connect to SQLite database to check for existing data
 conn = sqlite3.connect('database.sqlite3')
 cursor = conn.cursor()
@@ -121,12 +120,15 @@ else:
 
 conn.close()
 
-# Main loop to interact with the chatbot
+@app.route("/")
+def home():
+    return render_template("ui.html")
 
-try:
-    while True:
-        user_input = input("You: ")
-        bot_response = chatbot.get_response(user_input)
-        print("ChattiBotti:", bot_response)
-except (KeyboardInterrupt, EOFError, SystemExit):
-    print("Chat session ended.")
+@app.route("/get_response", methods=["POST"])
+def get_response():
+    user_input = request.form["user_input"]
+    bot_response = chatbot.get_response(user_input)
+    return str(bot_response)
+
+if __name__ == "__main__":
+    app.run(debug=True)
