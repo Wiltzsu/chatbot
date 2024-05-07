@@ -1,6 +1,8 @@
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.languages import ENG
+from chatterbot.trainers import ChatterBotCorpusTrainer
+import hashlib
 import spacy
 import sqlite3
 
@@ -8,125 +10,132 @@ import sqlite3
 nlp = spacy.load("en_core_web_sm")
 
 # Initialize ChatterBot with the correct Spacy model, adapters and configurations
-chatbot = ChatBot("ChattiBotti", 
-                  tagger_language=ENG,
-                  storage_adapter='chatterbot.storage.SQLStorageAdapter',
-                  database_uri='sqlite:///database.sqlite3',
-                  logic_adapters=[
-                      'chatterbot.logic.BestMatch', # Handles general queries
-                      'chatterbot.logic.MathematicalEvaluation',
-                      #'chatterbot.logic.TimeLogicAdapter'
-                  ])
+chatbot = ChatBot(
+    "FacilityBot",  # Renamed for clarity
+    tagger_language=ENG,
+    storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    database_uri='sqlite:///database.sqlite3',
+    logic_adapters=[
+        {
+        'import_path': 'chatterbot.logic.BestMatch',
+        'default_response': 'I am sorry, but I do not understand.',
+        'maximum_similarity_threshold': 0.90
+        },
+        'chatterbot.logic.MathematicalEvaluation',
+    ]
+)
 
-# Define a conversation array to train the chatbot
+# Define a conversation array to train the chatbot in English
 conversation = [
-    "Hello",
-    "Hi there!",
-    "How are you?",
-    "I'm doing well, thanks! How about you?",
-    "I'm good, thanks for asking.",
-    "Good to hear that. What can I do for you today?",
+# Heating conversations
+# Coversation 1
+    "Hi, I'm having trouble with my heating.",
+    "I'm sorry to hear that. Can you tell me more about what's happening with your heating?",
+    "My radiator is not heating up at all.",
+    "I understand. Could you please tell me your apartment number?",
+    "My apartment number is 21.",
+    "Thank you for the information. I will send a maintenance person to check your radiator as soon as possible.",
+    "How long will the repair take?",
+    "The maintenance person should arrive within the hour, and we will assess the duration of the repair based on the situation.",
+    "Can I leave my keys with the neighbor? I won't be home.",
+    "Yes, you can. Please provide us with your neighbor's contact details so we can coordinate with them.",
     
-    "Hey",
-    "Hello! How can I help you today?",
-    "What's up?",
-    "Not much, just here to help you! What's up with you?",
+# Water leak conversations
+# Conversation 1
+	"Is a water leak an emergency?",
+	"Yes, a water leak is always considered an emergency. Please shut off the main water valve and inform us immediately.",
+	"The faucet in the bathroom is leaking. What should I do?",
+	"First, shut off the main water valve to stop the water flow, and inform us about the problem. We will send maintenance to your location as quickly as possible.",
     
-    "Good morning",
-    "Good morning! I hope you have a great day ahead.",
-    "Good evening",
-    "Good evening! How was your day?",
-    
-    "How's it going?",
-    "It's going well, thanks! And you?",
-    "What are you doing?",
-    "I'm here to assist you. Tell me, how can I help?",
-    
-    "Bye",
-    "Goodbye! Have a great day ahead.",
-    "See you later",
-    "Sure, see you later! Don't hesitate to ask if you need more help.",
-    
-    "Thank you",
-    "You're welcome!",
-    "Thanks",
-    "Anytime! Let me know if there's anything else I can do for you.",
-    
-    "This is great",
-    "I'm glad you think so! Anything else you'd like to add?",
-    "I am bored",
-    "Let's change that! What do you enjoy doing?",
-    
-    "Tell me a joke",
-    "Why don't scientists trust atoms? Because they make up everything!",
-    "Can you help me?",
-    "Of course! What do you need help with?"
-    
-    "Hey there!",
-    "Hello! How can I assist you today?",
-    "What's cracking?",
-    "Not much, just ready to help you out! How about you?",
+# Conversation 2
+	"I just noticed a puddle of water under my kitchen sink. What should I do?",
+	"It sounds like you might have a leak. Please check if the water valves under the sink can be turned off to stop the leak temporarily and then describe any visible damage or signs of leakage.",
+	"The pipes are dripping, and there's rust around the connections.",
+	"Thank you for checking. I recommend keeping the valve closed and using a bucket to catch any drips. A maintenance team member will be dispatched to your location soon to fix the issue.",
 
-    "Morning!",
-    "Good morning! How's your day starting off?",
-    "Evening!",
-    "Good evening! What's on your mind?",
-
-    "Howdy!",
-    "Hey! What can I do for you?",
-    "What's happening?",
-    "Just here, at your service! What can I help you with?",
-
-    "See ya!",
-    "Take care! Let me know if you need anything else.",
-    "Later!",
-    "Until next time! Feel free to reach out whenever.",
-
-    "Cheers!",
-    "You're welcome!",
-    "Thanks a bunch!",
-    "Anytime! Don't hesitate to ask if you need more assistance.",
-
-    "Nice!",
-    "Glad you think so! What else can I do for you?",
-    "Boredom alert!",
-    "Let's shake things up! What interests you?",
-
-    "Hit me with a joke!",
-    "Why don't skeletons fight each other? They don't have the guts!",
-    "Need a laugh?",
-    "Sure thing! Why did the scarecrow win an award? Because he was outstanding in his field!",
-
-    "Can you assist me?",
-    "Absolutely! What do you need help with?",
-    "I'm stuck, help!",
-    "No problem! Let's work through it together."
+# Conversation 3
+	"There's water coming from my ceiling. I think there's a leak from the apartment above.",
+	"That's concerning. Have you been able to contact the resident above you?",
+	"No, there's no response from their apartment.",
+	"I'll notify building management and send someone to check both your apartment and the unit above. Please move any valuables away from the affected area to prevent water damage.",
+	
+# Conversation 4
+	"How do I report a water leak in the public hallway?",
+	"Thank you for bringing this to our attention. Can you specify which floor the leak is on?",
+	"It's on the second floor near the stairwell.",
+	"I've informed maintenance to address the leak immediately. We appreciate your help in keeping the building safe and clean.",
+	
+# Conversation 5
+	"What should I do if I suspect a water leak behind a wall? I can hear dripping sounds.",
+	"It's important to address hidden leaks promptly to avoid structural damage. Can you tell if the sound is localized to one area?",
+	"Yes, it's most noticeable behind the bathroom wall.",
+	"Please avoid using the bathroom if possible, and I will send a specialist to inspect and repair the leak as soon as possible.",
+			 
+# Maintenance conversations
+# Cancel maintenance
+    "How do I cancel a maintenance request?",
+    "You can cancel a maintenance request by calling our customer service or sending an email. We will need your apartment number to proceed with the cancellation.",
+  
+ # Update maintenance
+    "I would like to update my maintenance request information.",
+    "How would you like to update your request? You can send the updated information by email or call our customer service.",
+    
+ # Refridgerator
+    "My refrigerator isn't working, what should I do?",
+    "Please inform us about the model of your refrigerator and describe the problem in more detail. We will send a technician to check the situation."
 ]
 
+# Function to create a hash of conversation data
+def hash_conversation(conversation):
+    convo_string = ''.join(conversation).encode('utf-8')
+    return hashlib.md5(convo_string).hexdigest()
 
-# Connect to SQLite database to check for existing data
+# Connect to the database and check for changes
 conn = sqlite3.connect('database.sqlite3')
 cursor = conn.cursor()
 
-# Check if there is already training data in the database
-cursor.execute("SELECT COUNT(*) FROM statement") # Ensure that the table name exists
-count = cursor.fetchone()[0]
+# Ensure the 'hashes' table exists
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS hashes (
+    id INTEGER PRIMARY KEY,
+    hash TEXT NOT NULL
+);
+''')
 
-if count == 0:
+# Get the latest hash from the database
+cursor.execute("SELECT hash FROM hashes ORDER BY id DESC LIMIT 1")
+last_hash = cursor.fetchone()
+
+# Calculate current hash
+current_hash = hash_conversation(conversation)
+
+# Compare hashes and train if different
+if last_hash is None or last_hash[0] != current_hash:
     trainer = ListTrainer(chatbot)
     trainer.train(conversation)
-    print("Training completed.")
+    print("Training completed with updated conversation data.")
+    # Update the hash in the database
+    cursor.execute("INSERT INTO hashes (hash) VALUES (?)", (current_hash,))
+    conn.commit()
 else:
-    print("Chatbot has already been trained with existing data.")
+    print("No updates in conversation data. No re-training required.")
 
 conn.close()
 
-# Main loop to interact with the chatbot
-
-try:
+# Main interaction loop
+def main():
+    print("FacilityBot: How can I help you?")
     while True:
-        user_input = input("You: ")
-        bot_response = chatbot.get_response(user_input)
-        print("ChattiBotti:", bot_response)
-except (KeyboardInterrupt, EOFError, SystemExit):
-    print("Chat session ended.")
+        try:
+            user_input = input("You: ")
+            if user_input.lower() == 'exit':
+                print("FacilityBot: Goodbye!")
+                break
+            response = chatbot.get_response(user_input)
+            print("FacilityBot: ", response)
+        except (KeyboardInterrupt, EOFError, SystemExit):
+            print("FacilityBot: Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
