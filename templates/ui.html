@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with ChattiBotti</title>
+    <!-- Link Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--CSS-->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container m-5 p-5">
+        <h1>Chat with ChattiBotti</h1>
+        <div id="chatbox" class="mt-4"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" name="user_input" class="form-control mb-4 mt-4 col-mb-4" placeholder="Kirjoita viestisi tähän">
+            <button type="submit" class="btn-lg btn-secondary mx-auto d-block">Send</button>
+        </form>
+    </div>
+
+    <!-- Link Bootstrap JS and Fetch API Polyfill for Older Browsers -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@4.0.0/dist/fetch.umd.min.js"></script>
+
+    <script>
+        document.getElementById("chat-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var userInput = document.getElementById("user-input").value;
+
+            fetch("/get_response", {
+                method: "POST",
+                body: new URLSearchParams({
+                    user_input: userInput
+                }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("chatbox").innerHTML += "<p class='text-dark'>Sinä: " + userInput + "</p>";
+                document.getElementById("chatbox").innerHTML += "<p>ChattiBotti: " + data + "</p>";
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
+
