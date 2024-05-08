@@ -5,6 +5,7 @@ from chatterbot.languages import ENG
 import hashlib
 import spacy
 import sqlite3
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -73,8 +74,27 @@ def home():
 @app.route("/get_response", methods=["POST"])
 def get_response():
     user_input = request.form["user_input"]
-    bot_response = chatbot.get_response(user_input)
+    bot_response = str(chatbot.get_response(user_input))
+
+    # Get the default response from the chatbot object
+    default_response = 'I am sorry, but I do not understand.'
+
+    # If the bot's response matches the default response, save the question to a text file
+    if bot_response.strip() == default_response.strip():
+        save_unanswered_question(user_input)
+
     return str(bot_response)
+
+def save_unanswered_question(question):
+    script_directory = Path(__file__).resolve().parent
+    filename = script_directory / "unanswered_questions.txt"
+    try:
+        with open(filename, "a") as file:
+            file.write(question + "\n")
+        print(f"Unanswered question saved to {filename}")
+    except Exception as e:
+        print(f"Error occurred while saving unanswered question: {e}")
+
 
 # Starting the Flask app
 if __name__ == "__main__":
