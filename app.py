@@ -80,7 +80,7 @@ def get_response():
     default_response = 'I am sorry, but I do not understand.'
 
     # If the bot's response matches the default response, save the question to a text file
-    if bot_response.strip() == default_response.strip():
+    if bot_response == default_response:
         save_unanswered_question(user_input)
 
     return str(bot_response)
