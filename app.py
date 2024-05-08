@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.languages import ENG
+import hashlib
 import spacy
 import sqlite3
 
@@ -21,6 +22,11 @@ chatbot = ChatBot("ChattiBotti",
 # Define a conversation array to train the chatbot
 conversation = [
 ]
+
+def hash_conversation(conversation):
+    # Takes the list of conversation strings and concatenates them into a single string using join
+    convo_string = ''.join(conversation).encode('utf-8') # Encodes the string to utf-8 which is needed because md5 function requires binary data
+    return hashlib.md5(convo_string).hexdigest() # Computes the md5 hash of the encoded string. hexdigest() method returns the hash as a hexadecimal string
 
 # Connect to SQLite database to check for existing data
 conn = sqlite3.connect('database.sqlite3')
