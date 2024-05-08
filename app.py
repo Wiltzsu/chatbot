@@ -130,7 +130,7 @@ last_hash = cursor.fetchone()
 # Calculate current hash
 current_hash = hash_conversation(conversation)
 
-# Compare hashes and train if different
+# Compare hashes and train if the data is different or it doesn't exist
 if last_hash is None or last_hash[0] != current_hash:
     trainer = ListTrainer(chatbot)
     trainer.train(conversation)
