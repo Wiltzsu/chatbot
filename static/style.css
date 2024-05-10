@@ -1,8 +1,84 @@
-.container {
-    background-color: green;
+#container {
+    background-color: #212121;
     color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-#chatbox p {
-    font-size: 1.2em;
+#chat-container {
+    flex-grow: 1; 
+    overflow-y: auto;
+    padding: 10px; 
+    max-height: calc(100vh - 350px); 
+    max-width: 70%;
 }
+
+body {
+    background-color: #212121;
+    margin: 0; 
+}
+
+h1 {
+    color: white;
+    text-align: center; 
+    margin: 0; 
+    margin-bottom: 1em;
+}
+
+.container {
+    margin: 0; 
+    padding: 0; 
+}
+
+p {
+    color: white;
+    margin: 0; 
+    padding: 0.3em;
+
+}
+
+#chatbox1,
+#chatbox2 {
+    width: 80%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: white;
+    margin: auto; 
+    margin-bottom: 0; 
+    padding: 0; 
+    display: block; 
+}
+
+#chatbox3,
+#chatbox4 {
+    width: 80%;
+    color: white;
+    margin: 0 auto; 
+    margin-bottom: 0; 
+    padding: 0; 
+    display: block; 
+}
+
+
+
+
+#chatbox1 {
+    background-color: black;
+    margin-bottom: 1em;
+}
+
+#chatbox2 {
+    background-color: black;
+    margin-bottom: 3em;
+}
+
+#chatbox3 {
+    background-color: #2F2F2F;
+}
+
+#chatbox4 {
+    background-color: #2F2F2F;
+}
+
+
