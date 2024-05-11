@@ -1,9 +1,5 @@
-
-perse
-homot haisee pahalle
-minun muna on pienempi kuin elastisella, kuinka minun pitäisi toimia
-minun muna oun pitäisi toimia
-olen saanut vastauksen postikeskukselta avaatkaa ovi
-Ok thank you
-hello
-hey how are you
+Hello
+Hello
+How are you?
+What is your name
+Can you help me
