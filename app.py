@@ -19,7 +19,7 @@ chatbot = ChatBot(
         {
             'import_path': 'chatterbot.logic.BestMatch',
             'default_response': 'I am sorry, but I do not understand.',
-            'maximum_similarity_threshold': 0.90
+            'maximum_similarity_threshold': 0.50
         },
         'chatterbot.logic.MathematicalEvaluation',
     ]
@@ -27,7 +27,14 @@ chatbot = ChatBot(
 
 # Define a conversation array to train the chatbot in English
 conversation = [
-
+	"Hello",
+	"Hi!",
+	"How are you?",
+	"I am good, how are you?",
+	"What is your name",
+	"My name is FacilityBot",
+	"Can you help me",
+	"What kind of help do you need?",
 ]
 
 def hash_conversation(conversation):
@@ -77,7 +84,7 @@ def get_response():
     bot_response = str(chatbot.get_response(user_input))
 
     # Get the default response from the chatbot object
-    default_response = 'I am sorry, but I do not understand.'
+    default_response = 'I am sorry, but I am not trained to answer that question.'
 
     # If the bot's response matches the default response, save the question to a text file
     if bot_response == default_response:
