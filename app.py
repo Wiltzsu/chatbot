@@ -27,14 +27,6 @@ chatbot = ChatBot(
 
 # Define a conversation array to train the chatbot in English
 conversation = [
-	"Hello",
-	"Hi!",
-	"How are you?",
-	"I am good, how are you?",
-	"What is your name",
-	"My name is FacilityBot",
-	"Can you help me",
-	"What kind of help do you need?",
 ]
 
 def hash_conversation(conversation):
