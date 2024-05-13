@@ -51,6 +51,9 @@
                 chatContainer.appendChild(chatbox);
 
                 chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                // Clear the input field
+                document.getElementById("user-input").value = "";
             })
             .catch(error => console.error("Error:", error));
         });
