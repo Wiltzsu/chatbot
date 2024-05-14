@@ -19,7 +19,7 @@ chatbot = ChatBot(
         {
             'import_path': 'chatterbot.logic.BestMatch',
             'default_response': 'I am sorry, but I do not understand.',
-            'maximum_similarity_threshold': 0.90
+            'maximum_similarity_threshold': 0.80
         },
         'chatterbot.logic.MathematicalEvaluation',
     ]
@@ -27,22 +27,6 @@ chatbot = ChatBot(
 
 # Define a conversation array to train the chatbot in English
 conversation = [
-    # Add your conversation data here
-# Conversation 6
-	"What should I do if my toilet won't flush?"
-	"Check if the tank's water level is adequate. If low, adjust the float. Also, inspect the flapper to ensure it's not worn out or disconnected.",
-
-# Conversation 7
-	"How can I fix a leaky faucet?"
-	"Typically, fixing a leaky faucet involves replacing the washer or O-ring inside the handle. Make sure to turn off the water supply before starting your repair.",
-
-# Conversation 8
-	"My shower drain is clogged, can you help?",
-	"Try using a plunger first. If that doesn't work, a plumbing snake or a chemical drain cleaner might be needed to clear out hair and debris.",
-
-# Conversation 9
-	"There's no hot water. What's wrong?",
-	"Check your water heater to see if the pilot light is on (for gas heaters) or if the circuit breaker has tripped (for electric heaters).",
 ]
 
 def hash_conversation(conversation):
@@ -92,7 +76,7 @@ def get_response():
     bot_response = str(chatbot.get_response(user_input))
 
     # Get the default response from the chatbot object
-    default_response = 'I am sorry, but I do not understand.'
+    default_response = 'I am sorry, but I am not trained to answer that question.'
 
     # If the bot's response matches the default response, save the question to a text file
     if bot_response == default_response:
