@@ -27,8 +27,7 @@ chatbot = ChatBot(
 
 # Define a conversation array to train the chatbot in English
 conversation = [
-    'thank you',
-    'Youre welcome'
+    
 ]
 
 def hash_conversation(conversation):
