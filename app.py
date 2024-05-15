@@ -18,7 +18,7 @@ chatbot = ChatBot(
     logic_adapters=[
         {
             'import_path': 'chatterbot.logic.BestMatch',
-            'default_response': 'I am sorry, but I do not understand.',
+            'default_response': 'I am sorry, but I am not trained to answer that question.',
             'maximum_similarity_threshold': 0.80
         },
         'chatterbot.logic.MathematicalEvaluation',
@@ -27,6 +27,8 @@ chatbot = ChatBot(
 
 # Define a conversation array to train the chatbot in English
 conversation = [
+    'thank you',
+    'Youre welcome'
 ]
 
 def hash_conversation(conversation):
