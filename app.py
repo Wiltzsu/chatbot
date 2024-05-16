@@ -18,7 +18,6 @@ chatbot = ChatBot(
     logic_adapters=[
         {
             'import_path': 'chatterbot.logic.BestMatch',
-            'default_response': 'I am sorry, but I do not understand.',
             'maximum_similarity_threshold': 0.80
         },
         'chatterbot.logic.MathematicalEvaluation',
@@ -74,6 +73,8 @@ conversation = [
     "Small decorations like wreaths are allowed, but they should not damage the door or disrupt the building's aesthetic. Please ensure decorations are secured properly.",
     "Are residents allowed to host events in the common areas?",
     "Residents can host events in designated common areas with prior approval from the management office. A reservation may require a security deposit."
+    
+>>>>>>> ba1b18cdf4f666624d12b03f7661a0acb1ee2e66
 ]
 
 
